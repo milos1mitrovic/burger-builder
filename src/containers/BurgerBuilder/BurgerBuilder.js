@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import BuildControls from "../../components/BuildControls/BuildControls";
+import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Burger from "../../components/Burger/Burger";
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSmmary";
+import Modal from "../../components/UI/Modal/Modal";
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -19,6 +21,7 @@ class BurgerBuilder extends Component {
     },
     totalPrice: 4,
     purchasable: false,
+    showModal: false,
   };
 
   updatePurchaseState() {
@@ -76,6 +79,17 @@ class BurgerBuilder extends Component {
     );
   };
 
+  showModalHandler = () => {
+    this.setState({ showModal: true });
+  };
+  removeModalHandler = () => {
+    this.setState({ showModal: false });
+  };
+
+  purchaseContinueHandler = () => {
+    alert("You continue");
+  };
+
   render() {
     const disabledInfo = {
       ...this.state.ingredients,
@@ -87,6 +101,19 @@ class BurgerBuilder extends Component {
     return (
       <>
         <Burger ingredients={this.state.ingredients} />
+
+        <Modal
+          show={this.state.showModal}
+          modalClosed={this.removeModalHandler}
+        >
+          <OrderSummary
+            removeModal={this.removeModalHandler}
+            purchaseContinue={this.purchaseContinueHandler}
+            ingredients={this.state.ingredients}
+            price={this.state.totalPrice}
+          />
+        </Modal>
+
         <div>
           <BuildControls
             price={this.state.totalPrice}
@@ -95,6 +122,7 @@ class BurgerBuilder extends Component {
             onRemoveIngredient={this.removeIngredientHandler}
             disabled={disabledInfo}
             purchasable={this.state.purchasable}
+            onClick={this.showModalHandler}
           />
         </div>
       </>
