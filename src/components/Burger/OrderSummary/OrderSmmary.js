@@ -10,7 +10,6 @@ const OrderSummary = (props) => {
       </li>
     );
   });
-  console.log(ingredientsSummary);
   return (
     <>
       <h3>Your order</h3>
